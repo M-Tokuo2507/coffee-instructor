@@ -642,20 +642,14 @@ body::after {
   margin: 12px 0;
 }
 .textbook-content table {
-  width: 100%;
   border-collapse: collapse;
   margin: 8px 0;
   font-size: 0.8rem;
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
-.textbook-content thead, .textbook-content tbody, .textbook-content tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-.textbook-content table { display: block; }
 .textbook-content thead { display: table-header-group; }
 .textbook-content tbody { display: table-row-group; }
 .textbook-content tr { display: table-row; }
