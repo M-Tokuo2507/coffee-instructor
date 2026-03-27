@@ -607,6 +607,8 @@ body::after {
   padding: 16px 14px;
   line-height: 1.65;
   font-size: 0.88rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .textbook-content h1 {
   font-size: 1.1rem;
@@ -643,17 +645,9 @@ body::after {
 }
 .textbook-content table {
   border-collapse: collapse;
-  margin: 8px 0;
+  margin: 8px -14px;
   font-size: 0.8rem;
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.textbook-content thead,
-.textbook-content tbody {
-  display: table;
-  width: max-content;
-  min-width: 100%;
+  width: calc(100% + 28px);
 }
 .textbook-content th, .textbook-content td {
   padding: 5px 8px;
