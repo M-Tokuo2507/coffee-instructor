@@ -648,16 +648,21 @@ body::after {
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  max-width: 100%;
 }
-.textbook-content thead { display: table-header-group; }
-.textbook-content tbody { display: table-row-group; }
-.textbook-content tr { display: table-row; }
+.textbook-content thead,
+.textbook-content tbody {
+  display: table;
+  width: max-content;
+  min-width: 100%;
+}
 .textbook-content th, .textbook-content td {
   padding: 5px 8px;
   border: 1px solid var(--border);
   text-align: left;
-  word-break: break-word;
+}
+.textbook-content td:first-child,
+.textbook-content th:first-child {
+  white-space: nowrap;
 }
 .textbook-content th {
   background: var(--accent);
