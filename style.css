@@ -604,49 +604,72 @@ body::after {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 20px 16px;
-  line-height: 1.8;
-  font-size: 0.92rem;
+  padding: 16px 14px;
+  line-height: 1.65;
+  font-size: 0.88rem;
 }
 .textbook-content h1 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--accent);
-  margin-bottom: 16px;
-  padding-bottom: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
   border-bottom: 2px solid var(--border);
 }
 .textbook-content h2 {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--accent);
-  margin: 20px 0 10px;
-  padding-left: 10px;
+  margin: 16px 0 6px;
+  padding-left: 8px;
   border-left: 3px solid var(--accent);
 }
 .textbook-content h3 {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--accent-warm);
-  margin: 16px 0 8px;
+  margin: 12px 0 4px;
 }
-.textbook-content p { margin-bottom: 10px; }
+.textbook-content p { margin-bottom: 6px; }
 .textbook-content ul, .textbook-content ol {
-  margin: 8px 0 12px 20px;
+  margin: 4px 0 8px 16px;
+  padding-left: 0;
 }
-.textbook-content li { margin-bottom: 4px; }
+.textbook-content li {
+  margin-bottom: 2px;
+  padding-left: 2px;
+}
+.textbook-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
 .textbook-content table {
   width: 100%;
   border-collapse: collapse;
-  margin: 12px 0;
-  font-size: 0.85rem;
+  margin: 8px 0;
+  font-size: 0.8rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
+.textbook-content thead, .textbook-content tbody, .textbook-content tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.textbook-content table { display: block; }
+.textbook-content thead { display: table-header-group; }
+.textbook-content tbody { display: table-row-group; }
+.textbook-content tr { display: table-row; }
 .textbook-content th, .textbook-content td {
-  padding: 8px 10px;
+  padding: 5px 8px;
   border: 1px solid var(--border);
   text-align: left;
+  word-break: break-word;
 }
 .textbook-content th {
   background: var(--accent);
   color: #fff;
   font-weight: 600;
+  font-size: 0.78rem;
 }
 .textbook-content strong { color: var(--accent); }
 
