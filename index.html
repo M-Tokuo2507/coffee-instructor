@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#2c1f17">
+  <title>Coffee Instructor 1級 対策</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== ホーム画面 ===== -->
+  <div id="screen-home" class="screen active">
+    <header class="home-header">
+      <h1>Coffee Instructor 1級</h1>
+      <p class="subtitle">学科試験対策</p>
+    </header>
+
+    <div class="stats-card">
+      <div class="stat">
+        <span class="stat-value" id="stat-total">0</span>
+        <span class="stat-label">学習済み</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-rate">--%</span>
+        <span class="stat-label">正答率</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-weak">0</span>
+        <span class="stat-label">苦手</span>
+      </div>
+    </div>
+
+    <nav class="mode-list">
+      <button class="mode-btn" data-mode="category">
+        <span class="mode-icon icon-category"></span>
+        <div class="mode-info">
+          <span class="mode-name">分野別学習</span>
+          <span class="mode-desc">章を選んで集中学習</span>
+        </div>
+        <span class="chevron">›</span>
+      </button>
+      <button class="mode-btn" data-mode="weak">
+        <span class="mode-icon icon-weak"></span>
+        <div class="mode-info">
+          <span class="mode-name">苦手問題</span>
+          <span class="mode-desc">不正解の問題を復習</span>
+        </div>
+        <span class="chevron">›</span>
+      </button>
+      <button class="mode-btn" data-mode="random">
+        <span class="mode-icon icon-random"></span>
+        <div class="mode-info">
+          <span class="mode-name">ランダム</span>
+          <span class="mode-desc">全問シャッフル出題</span>
+        </div>
+        <span class="chevron">›</span>
+      </button>
+      <button class="mode-btn" data-mode="exam">
+        <span class="mode-icon icon-exam"></span>
+        <div class="mode-info">
+          <span class="mode-name">模擬試験</span>
+          <span class="mode-desc">本番形式 35問</span>
+        </div>
+        <span class="chevron">›</span>
+      </button>
+    </nav>
+
+    <div class="home-footer">
+      <button class="link-btn" id="btn-settings">設定</button>
+    </div>
+  </div>
+
+  <!-- ===== 分野選択画面 ===== -->
+  <div id="screen-category" class="screen">
+    <header class="sub-header">
+      <button class="back-btn" data-target="home">‹ 戻る</button>
+      <h2>分野を選択</h2>
+    </header>
+    <div class="category-list" id="category-list">
+      <!-- JS で動的に生成 -->
+    </div>
+  </div>
+
+  <!-- ===== 問題画面 ===== -->
+  <div id="screen-quiz" class="screen">
+    <header class="quiz-header">
+      <button class="back-btn" id="btn-quit">✕ 終了</button>
+      <div class="quiz-progress">
+        <span id="quiz-counter">1 / 10</span>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+    </header>
+
+    <div class="quiz-meta">
+      <span class="badge badge-category" id="quiz-category"></span>
+      <span class="badge badge-type" id="quiz-type"></span>
+      <span class="badge badge-diff" id="quiz-diff"></span>
+    </div>
+
+    <div class="quiz-body">
+      <p class="question-text" id="question-text"></p>
+
+      <!-- ○× 回答エリア -->
+      <div id="answer-ox" class="answer-area" style="display:none">
+        <button class="ox-btn ox-true" data-answer="true">〇</button>
+        <button class="ox-btn ox-false" data-answer="false">×</button>
+      </div>
+
+      <!-- 選択肢 回答エリア -->
+      <div id="answer-geo" class="answer-area" style="display:none">
+        <button class="choice-btn" data-index="0"></button>
+        <button class="choice-btn" data-index="1"></button>
+        <button class="choice-btn" data-index="2"></button>
+        <button class="choice-btn" data-index="3"></button>
+      </div>
+
+      <!-- 記述 回答エリア -->
+      <div id="answer-desc" class="answer-area" style="display:none">
+        <button class="show-answer-btn" id="btn-show-answer">解答を見る</button>
+        <div id="desc-answer-area" style="display:none">
+          <div class="model-answer">
+            <h4>模範解答</h4>
+            <p id="desc-model-answer"></p>
+          </div>
+          <div class="keywords-area">
+            <h4>採点キーワード</h4>
+            <div id="desc-keywords"></div>
+          </div>
+          <div class="self-score">
+            <p>自己採点してください</p>
+            <button class="score-btn correct" data-correct="true">正解</button>
+            <button class="score-btn wrong" data-correct="false">不正解</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 解説エリア（○×・地理用） -->
+      <div id="explanation-area" class="explanation" style="display:none">
+        <div class="result-icon" id="result-icon"></div>
+        <p id="explanation-text"></p>
+        <button class="next-btn" id="btn-next">次の問題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 結果画面 ===== -->
+  <div id="screen-result" class="screen">
+    <header class="sub-header">
+      <button class="back-btn" data-target="home">‹ ホーム</button>
+      <h2>結果</h2>
+    </header>
+    <div class="result-card">
+      <div class="result-score">
+        <span class="result-score-value" id="result-correct">0</span>
+        <span class="result-score-sep">/</span>
+        <span class="result-score-total" id="result-total">0</span>
+      </div>
+      <p class="result-rate" id="result-rate">正答率 --%</p>
+      <div class="result-breakdown" id="result-breakdown"></div>
+    </div>
+    <div class="result-actions">
+      <button class="primary-btn" id="btn-retry">もう一度</button>
+      <button class="secondary-btn" data-target="home">ホームに戻る</button>
+    </div>
+  </div>
+
+  <!-- ===== 設定画面 ===== -->
+  <div id="screen-settings" class="screen">
+    <header class="sub-header">
+      <button class="back-btn" data-target="home">‹ 戻る</button>
+      <h2>設定</h2>
+    </header>
+    <div class="settings-body">
+      <div class="setting-item">
+        <span>ダークモード</span>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-dark">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <span>問題数（ランダム）</span>
+        <select id="select-count">
+          <option value="10">10問</option>
+          <option value="20">20問</option>
+          <option value="50">50問</option>
+          <option value="0">全問</option>
+        </select>
+      </div>
+      <div class="setting-item danger">
+        <button class="danger-btn" id="btn-reset-all">全記録をリセット</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 確認ダイアログ ===== -->
+  <div id="dialog-overlay" class="dialog-overlay" style="display:none">
+    <div class="dialog">
+      <p id="dialog-msg"></p>
+      <div class="dialog-actions">
+        <button class="secondary-btn" id="dialog-cancel">キャンセル</button>
+        <button class="danger-btn" id="dialog-confirm">実行</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="questions-ox.js"></script>
+  <script src="questions-geo.js"></script>
+  <script src="questions-desc.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
