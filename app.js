@@ -1,5 +1,5 @@
 /* ===================================================================
-   Coffee Instructor 1級 対策アプリ – app.js
+   コーヒーインストラクター1級 対策アプリ – app.js
    =================================================================== */
 'use strict';
 
@@ -384,7 +384,10 @@ function showResult() {
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const mode = btn.dataset.mode;
-    if (mode === 'category') {
+    if (mode === 'textbook') {
+      buildChapterList();
+      showScreen('textbook');
+    } else if (mode === 'category') {
       buildCategoryList();
       showScreen('category');
     } else if (mode === 'weak') {
@@ -495,6 +498,46 @@ function init() {
 }
 
 init();
+
+/* ---------- テキスト学習 ---------- */
+let currentChapterIndex = 0;
+
+function buildChapterList() {
+  const list = document.getElementById('chapter-list');
+  list.innerHTML = '';
+  knowledgeData.forEach((ch, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'chapter-btn';
+    btn.innerHTML = `
+      <span class="chapter-num">${i + 1}</span>
+      <span class="chapter-title">${ch.title}</span>
+      <span class="chevron">›</span>
+    `;
+    btn.addEventListener('click', () => openChapter(i));
+    list.appendChild(btn);
+  });
+}
+
+function openChapter(index) {
+  currentChapterIndex = index;
+  const ch = knowledgeData[index];
+  document.getElementById('textbook-title').textContent = ch.title;
+  document.getElementById('textbook-content').innerHTML = ch.html;
+  updateChapterNav();
+  showScreen('textbook-read');
+}
+
+function updateChapterNav() {
+  document.getElementById('btn-prev-chapter').disabled = (currentChapterIndex <= 0);
+  document.getElementById('btn-next-chapter').disabled = (currentChapterIndex >= knowledgeData.length - 1);
+}
+
+document.getElementById('btn-prev-chapter').addEventListener('click', () => {
+  if (currentChapterIndex > 0) openChapter(currentChapterIndex - 1);
+});
+document.getElementById('btn-next-chapter').addEventListener('click', () => {
+  if (currentChapterIndex < knowledgeData.length - 1) openChapter(currentChapterIndex + 1);
+});
 
 /* ---------- Service Worker 登録 ---------- */
 if ('serviceWorker' in navigator) {

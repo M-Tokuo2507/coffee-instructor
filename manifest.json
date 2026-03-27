@@ -1,6 +1,6 @@
 {
-  "name": "Coffee Instructor 1級 対策",
-  "short_name": "Coffee1級",
+  "name": "コーヒーインストラクター1級 対策",
+  "short_name": "コーヒー1級",
   "description": "コーヒーインストラクター1級 学科試験対策アプリ",
   "start_url": "./index.html",
   "display": "standalone",

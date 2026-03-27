@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coffee1-v1';
+const CACHE_NAME = 'coffee1-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const ASSETS = [
   './questions-ox.js',
   './questions-geo.js',
   './questions-desc.js',
+  './knowledge-data.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png'

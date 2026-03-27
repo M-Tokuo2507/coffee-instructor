@@ -6,16 +6,26 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#2c1f17">
-  <title>Coffee Instructor 1級 対策</title>
+  <title>コーヒーインストラクター1級 対策</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- コーヒー豆 背景装飾 -->
+  <svg class="coffee-bean-deco bean-1" viewBox="0 0 40 60" fill="currentColor"><ellipse cx="20" cy="30" rx="18" ry="28"/><line x1="20" y1="4" x2="20" y2="56" stroke="var(--bg)" stroke-width="3"/></svg>
+  <svg class="coffee-bean-deco bean-2" viewBox="0 0 40 60" fill="currentColor"><ellipse cx="20" cy="30" rx="18" ry="28"/><line x1="20" y1="4" x2="20" y2="56" stroke="var(--bg)" stroke-width="3"/></svg>
+  <svg class="coffee-bean-deco bean-3" viewBox="0 0 40 60" fill="currentColor"><ellipse cx="20" cy="30" rx="18" ry="28"/><line x1="20" y1="4" x2="20" y2="56" stroke="var(--bg)" stroke-width="3"/></svg>
+
   <!-- ===== ホーム画面 ===== -->
   <div id="screen-home" class="screen active">
     <header class="home-header">
-      <h1>Coffee Instructor 1級</h1>
+      <div class="steam-container">
+        <div class="steam"></div>
+        <div class="steam"></div>
+        <div class="steam"></div>
+      </div>
+      <h1>コーヒーインストラクター1級</h1>
       <p class="subtitle">学科試験対策</p>
     </header>
 
@@ -34,7 +44,20 @@
       </div>
     </div>
 
+    <!-- 区切り -->
+    <div class="divider">
+      <svg class="divider-icon" viewBox="0 0 40 60" fill="currentColor"><ellipse cx="20" cy="30" rx="18" ry="28"/><line x1="20" y1="4" x2="20" y2="56" stroke="var(--bg)" stroke-width="3"/></svg>
+    </div>
+
     <nav class="mode-list">
+      <button class="mode-btn" data-mode="textbook">
+        <span class="mode-icon icon-textbook"></span>
+        <div class="mode-info">
+          <span class="mode-name">テキスト学習</span>
+          <span class="mode-desc">11分野のナレッジを読む</span>
+        </div>
+        <span class="chevron">›</span>
+      </button>
       <button class="mode-btn" data-mode="category">
         <span class="mode-icon icon-category"></span>
         <div class="mode-info">
@@ -80,8 +103,28 @@
       <button class="back-btn" data-target="home">‹ 戻る</button>
       <h2>分野を選択</h2>
     </header>
-    <div class="category-list" id="category-list">
-      <!-- JS で動的に生成 -->
+    <div class="category-list" id="category-list"></div>
+  </div>
+
+  <!-- ===== テキスト学習：章選択 ===== -->
+  <div id="screen-textbook" class="screen">
+    <header class="sub-header">
+      <button class="back-btn" data-target="home">‹ 戻る</button>
+      <h2>テキスト学習</h2>
+    </header>
+    <div class="chapter-list" id="chapter-list"></div>
+  </div>
+
+  <!-- ===== テキスト学習：本文 ===== -->
+  <div id="screen-textbook-read" class="screen">
+    <header class="sub-header">
+      <button class="back-btn" data-target="textbook">‹ 目次</button>
+      <h2 id="textbook-title"></h2>
+    </header>
+    <div class="textbook-content" id="textbook-content"></div>
+    <div class="chapter-nav">
+      <button id="btn-prev-chapter">← 前の章</button>
+      <button id="btn-next-chapter">次の章 →</button>
     </div>
   </div>
 
@@ -104,13 +147,11 @@
     <div class="quiz-body">
       <p class="question-text" id="question-text"></p>
 
-      <!-- ○× 回答エリア -->
       <div id="answer-ox" class="answer-area" style="display:none">
         <button class="ox-btn ox-true" data-answer="true">〇</button>
         <button class="ox-btn ox-false" data-answer="false">×</button>
       </div>
 
-      <!-- 選択肢 回答エリア -->
       <div id="answer-geo" class="answer-area" style="display:none">
         <button class="choice-btn" data-index="0"></button>
         <button class="choice-btn" data-index="1"></button>
@@ -118,7 +159,6 @@
         <button class="choice-btn" data-index="3"></button>
       </div>
 
-      <!-- 記述 回答エリア -->
       <div id="answer-desc" class="answer-area" style="display:none">
         <button class="show-answer-btn" id="btn-show-answer">解答を見る</button>
         <div id="desc-answer-area" style="display:none">
@@ -138,7 +178,6 @@
         </div>
       </div>
 
-      <!-- 解説エリア（○×・地理用） -->
       <div id="explanation-area" class="explanation" style="display:none">
         <div class="result-icon" id="result-icon"></div>
         <p id="explanation-text"></p>
@@ -211,6 +250,7 @@
   <script src="questions-ox.js"></script>
   <script src="questions-geo.js"></script>
   <script src="questions-desc.js"></script>
+  <script src="knowledge-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
