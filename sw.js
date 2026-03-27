@@ -1,8 +1,8 @@
-const CACHE_NAME = 'coffee1-v6';
+const CACHE_NAME = 'coffee1-v7';
 const ASSETS = [
   './',
   './index.html',
-  './style.css',
+  './style.css?v=6',
   './app.js',
   './questions-ox.js',
   './questions-geo.js',
@@ -33,23 +33,22 @@ self.addEventListener('activate', event => {
   );
 });
 
-// キャッシュファースト戦略
+// ネットワークファースト戦略（オンライン時は常に最新を取得）
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).then(response => {
-        // 成功したらキャッシュに追加
-        if (response.status === 200) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        }
-        return response;
-      });
-    }).catch(() => {
-      // オフラインでキャッシュにもない場合
-      if (event.request.destination === 'document') {
-        return caches.match('./index.html');
+    fetch(event.request).then(response => {
+      if (response.status === 200) {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
       }
+      return response;
+    }).catch(() => {
+      return caches.match(event.request).then(cached => {
+        if (cached) return cached;
+        if (event.request.destination === 'document') {
+          return caches.match('./index.html');
+        }
+      });
     })
   );
 });

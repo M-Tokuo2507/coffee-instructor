@@ -645,9 +645,8 @@ body::after {
 }
 .textbook-content table {
   border-collapse: collapse;
-  margin: 8px -14px;
+  margin: 8px 0;
   font-size: 0.8rem;
-  width: calc(100% + 28px);
 }
 .textbook-content th, .textbook-content td {
   padding: 5px 8px;
@@ -657,6 +656,10 @@ body::after {
 .textbook-content td:first-child,
 .textbook-content th:first-child {
   white-space: nowrap;
+}
+.textbook-content td:last-child,
+.textbook-content th:last-child {
+  width: 100%;
 }
 .textbook-content th {
   background: var(--accent);
