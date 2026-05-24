@@ -75,8 +75,13 @@ const questionsGeo = [
     id: "geo-009",
     category: "風味からコーヒーを理解する",
     question: "エチオピア・ゲシャ村が原産で、パナマで高品質として再注目された品種は何ですか？",
-    choices: ["マラゴジッペ","ゲイシャ（ゲシャ）","ブルーマウンテン","カトゥアイ"],
-    answer: 1,
+    choices: [
+      "マラゴジッペ",
+      "カトゥアイ",
+      "ブルーマウンテン",
+      "ゲイシャ（ゲシャ）"
+    ],
+    answer: 3,
     explanation: "ゲイシャ（ゲシャ）はエチオピア・ゲシャ村が原産で、パナマで再注目され、現在最高値で取引される品種の一つです。",
     difficulty: 2
   },
@@ -84,8 +89,13 @@ const questionsGeo = [
     id: "geo-010",
     category: "風味からコーヒーを理解する",
     question: "アラビカ種と比べて、カネフォラ種のカフェイン含有量は約何倍ですか？",
-    choices: ["約3倍","約1.5倍","約2倍","約4倍"],
-    answer: 2,
+    choices: [
+      "約2倍",
+      "約1.5倍",
+      "約3倍",
+      "約4倍"
+    ],
+    answer: 0,
     explanation: "カネフォラ種のカフェイン含有量は1.7〜4%で、アラビカ種（0.8〜1.4%）の約2倍です。",
     difficulty: 1
   },
@@ -102,8 +112,13 @@ const questionsGeo = [
     id: "geo-012",
     category: "風味からコーヒーを理解する",
     question: "パルプドナチュラル（ハニープロセス）はどの国で開発された精選方法ですか？",
-    choices: ["インドネシア","コロンビア","ブラジル","グアテマラ"],
-    answer: 2,
+    choices: [
+      "ブラジル",
+      "コロンビア",
+      "インドネシア",
+      "グアテマラ"
+    ],
+    answer: 0,
     explanation: "パルプドナチュラルはブラジルで開発された精選方法で、果肉を除去しながらミューシレージを残したまま乾燥させます。",
     difficulty: 2
   },
@@ -156,8 +171,13 @@ const questionsGeo = [
     id: "geo-018",
     category: "商品名からコーヒーを理解する",
     question: "エチオピアの欠点数方式でG1グレードの欠点数範囲（300gサンプル）はどれか。",
-    choices: ["26〜45個","13〜25個","0〜3個","4〜12個"],
-    answer: 2,
+    choices: [
+      "26〜45個",
+      "13〜25個",
+      "4〜12個",
+      "0〜3個"
+    ],
+    answer: 3,
     explanation: "エチオピアはG1（0〜3個）からG5（46〜90個）の5段階で格付けされる欠点数方式を採用しています。",
     difficulty: 2
   },
@@ -174,8 +194,13 @@ const questionsGeo = [
     id: "geo-020",
     category: "商品名からコーヒーを理解する",
     question: "ケニアの格付けで「AA」グレードのスクリーンサイズ基準はどれか。",
-    choices: ["SC 19以上","SC 15〜16","SC 17〜18（7.22mm以上）","SC 14以下"],
-    answer: 2,
+    choices: [
+      "SC 17〜18（7.22mm以上）",
+      "SC 15〜16",
+      "SC 19以上",
+      "SC 14以下"
+    ],
+    answer: 0,
     explanation: "ケニアではAAグレード＝SC17〜18（7.22mm以上）の大粒豆が高品質の目安とされています。",
     difficulty: 2
   },
@@ -246,8 +271,13 @@ const questionsGeo = [
     id: "geo-028",
     category: "商品名からコーヒーを理解する",
     question: "コロンビアの最高グレード「Supremo」のスクリーンサイズ基準はどれか。",
-    choices: ["SC 14〜16","SC 17以上","SC 13以下","SC 19以上"],
-    answer: 1,
+    choices: [
+      "SC 14〜16",
+      "SC 19以上",
+      "SC 13以下",
+      "SC 17以上"
+    ],
+    answer: 3,
     explanation: "コロンビアの「Supremo」グレードはSC17以上で、「Excelso」がSC14〜16です。",
     difficulty: 1
   },
@@ -273,8 +303,13 @@ const questionsGeo = [
     id: "geo-031",
     category: "商品名からコーヒーを理解する",
     question: "グアテマラの最高グレード「SHB」の標高基準はどれか。",
-    choices: ["1,500m以上","1,050m以上","1,350m以上","1,200m以上"],
-    answer: 2,
+    choices: [
+      "1,350m以上",
+      "1,050m以上",
+      "1,500m以上",
+      "1,200m以上"
+    ],
+    answer: 0,
     explanation: "グアテマラのSHB（Strictly Hard Bean）は1,350m以上の高地で栽培された豆で、硬く良質です。",
     difficulty: 2
   },
@@ -309,8 +344,13 @@ const questionsGeo = [
     id: "geo-035",
     category: "風味からコーヒーを理解する",
     question: "インドネシアで独自に採用されている精選方法は何ですか？",
-    choices: ["ハニープロセス","ケニア式","スマトラ式（ウェットハル）","アナエロビック発酵"],
-    answer: 2,
+    choices: [
+      "スマトラ式（ウェットハル）",
+      "ケニア式",
+      "ハニープロセス",
+      "アナエロビック発酵"
+    ],
+    answer: 0,
     explanation: "スマトラ式（ギリンバサ/ウェットハル）はインドネシア、特にスマトラ島のマンデリン産地で採用される独自の精選方法です。",
     difficulty: 1
   },
@@ -390,8 +430,13 @@ const questionsGeo = [
     id: "geo-044",
     category: "商品名からコーヒーを理解する",
     question: "ジャマイカの複合格付け方式で、最高グレード「Blue Mountain No.1」の基準として正しいものはどれか。",
-    choices: ["SC17・欠点数5個以下","SC16以上・欠点数10個以下","SC17〜18・欠点数最少","SC18・欠点数0個"],
-    answer: 2,
+    choices: [
+      "SC17〜18・欠点数最少",
+      "SC16以上・欠点数10個以下",
+      "SC17・欠点数5個以下",
+      "SC18・欠点数0個"
+    ],
+    answer: 0,
     explanation: "ジャマイカのブルーマウンテンNo.1はSC17〜18でスクリーンサイズが大きく、欠点数も最少という高い基準です。",
     difficulty: 3
   },
@@ -417,8 +462,13 @@ const questionsGeo = [
     id: "geo-047",
     category: "コーヒーをおいしく淹れるために",
     question: "コーヒー抽出における「適正な抽出率」の範囲として正しいものはどれか。",
-    choices: ["24〜28%","30%以上","18〜22%","12〜16%"],
-    answer: 2,
+    choices: [
+      "24〜28%",
+      "30%以上",
+      "12〜16%",
+      "18〜22%"
+    ],
+    answer: 3,
     explanation: "抽出率18〜22%が適正で、18%未満は未抽出（薄い）、22%超過は過抽出（苦い）になります。",
     difficulty: 2
   },
@@ -480,8 +530,13 @@ const questionsGeo = [
     id: "geo-054",
     category: "商品名からコーヒーを理解する",
     question: "メキシコの格付け方式として正しいものはどれか。",
-    choices: ["欠点数方式","スクリーンサイズ","標高方式","カップテスト方式"],
-    answer: 2,
+    choices: [
+      "標高方式",
+      "スクリーンサイズ",
+      "欠点数方式",
+      "カップテスト方式"
+    ],
+    answer: 0,
     explanation: "メキシコは標高方式。HG（High Grown, 900〜1200m）、PW（Prime Washed, 600〜900m）。",
     difficulty: 2
   },
@@ -552,8 +607,13 @@ const questionsGeo = [
     id: "geo-062",
     category: "生豆",
     question: "「バードフレンドリー認証」を認定する機関はどれか。",
-    choices: ["レインフォレスト・アライアンス","FLO","スミソニアン渡り鳥センター","SCA"],
-    answer: 2,
+    choices: [
+      "スミソニアン渡り鳥センター",
+      "FLO",
+      "レインフォレスト・アライアンス",
+      "SCA"
+    ],
+    answer: 0,
     explanation: "バードフレンドリー認証はスミソニアン渡り鳥センターが認定。有機栽培かつシェードグロウンの独自基準を満たす必要がある。",
     difficulty: 2
   },
@@ -633,8 +693,13 @@ const questionsGeo = [
     id: "geo-071",
     category: "カップテストの手順",
     question: "SCA方式のカッピングで推奨される水の硬度として正しいものはどれか。",
-    choices: ["0〜50ppm（超軟水）", "500ppm以上（硬水）", "150〜300ppm（軟水〜中硬水）", "300〜500ppm（硬水）"],
-    answer: 2,
+    choices: [
+      "150〜300ppm（軟水〜中硬水）",
+      "500ppm以上（硬水）",
+      "0〜50ppm（超軟水）",
+      "300〜500ppm（硬水）"
+    ],
+    answer: 0,
     explanation: "SCA方式では軟水〜中硬水（150〜300ppm）が推奨される。硬水はミネラルが多く抽出が阻害される可能性がある。",
     difficulty: 2
   },
@@ -660,8 +725,13 @@ const questionsGeo = [
     id: "geo-074",
     category: "コーヒーのおいしさを保つために",
     question: "温度が10℃上昇した場合、コーヒーの化学反応速度はおよそ何倍になるか。",
-    choices: ["約1.2倍", "約2倍", "約5倍", "約10倍"],
-    answer: 1,
+    choices: [
+      "約1.2倍",
+      "約10倍",
+      "約5倍",
+      "約2倍"
+    ],
+    answer: 3,
     explanation: "温度が10℃上昇すると反応速度は約2倍になる。ただし温度の影響は水分・酸素の影響に比べて小さい。",
     difficulty: 2
   },
@@ -711,4 +781,3 @@ const questionsGeo = [
     difficulty: 2
   }
 ];
-
