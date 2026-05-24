@@ -1,8 +1,8 @@
-const CACHE_NAME = 'coffee1-v18';
+const CACHE_NAME = 'coffee1-v19';
 const ASSETS = [
   './',
   './index.html',
-  './style.css?v=9',
+  './style.css?v=10',
   './app.js',
   './questions-ox.js',
   './questions-geo.js',

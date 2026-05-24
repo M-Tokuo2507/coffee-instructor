@@ -500,6 +500,9 @@ init();
 
 /* ---------- テキスト学習 ---------- */
 let currentChapterIndex = 0;
+let currentSearchQuery = '';   // 全文検索で指定されたクエリ（章を開いた時の自動ハイライト用）
+let currentMatchIndex = 0;     // 章内検索の現在位置
+let chapterTextsCache = null;  // 章テキストキャッシュ
 
 function buildChapterList() {
   const list = document.getElementById('chapter-list');
@@ -512,7 +515,10 @@ function buildChapterList() {
       <span class="chapter-title">${ch.title}</span>
       <span class="chevron">›</span>
     `;
-    btn.addEventListener('click', () => openChapter(i));
+    btn.addEventListener('click', () => {
+      currentSearchQuery = ''; // 通常の章クリックは検索クエリをリセット
+      openChapter(i);
+    });
     list.appendChild(btn);
   });
 }
@@ -524,6 +530,16 @@ function openChapter(index) {
   document.getElementById('textbook-content').innerHTML = ch.html;
   updateChapterNav();
   showScreen('textbook-read');
+
+  // 全文検索から開かれた場合は章内検索を自動実行
+  const inChapterInput = document.getElementById('in-chapter-input');
+  if (currentSearchQuery) {
+    inChapterInput.value = currentSearchQuery;
+    performInChapterSearch(currentSearchQuery, true);
+  } else {
+    inChapterInput.value = '';
+    updateInChapterCount(0, 0);
+  }
 }
 
 function updateChapterNav() {
@@ -532,10 +548,265 @@ function updateChapterNav() {
 }
 
 document.getElementById('btn-prev-chapter').addEventListener('click', () => {
-  if (currentChapterIndex > 0) openChapter(currentChapterIndex - 1);
+  if (currentChapterIndex > 0) {
+    currentSearchQuery = '';
+    openChapter(currentChapterIndex - 1);
+  }
 });
 document.getElementById('btn-next-chapter').addEventListener('click', () => {
-  if (currentChapterIndex < knowledgeData.length - 1) openChapter(currentChapterIndex + 1);
+  if (currentChapterIndex < knowledgeData.length - 1) {
+    currentSearchQuery = '';
+    openChapter(currentChapterIndex + 1);
+  }
+});
+
+/* ---------- ナレッジ検索 ---------- */
+
+// HTML文字列からテキストを抽出
+function htmlToText(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
+
+// 章テキストキャッシュ取得（初回計算後再利用）
+function getChapterTexts() {
+  if (chapterTextsCache) return chapterTextsCache;
+  chapterTextsCache = knowledgeData.map(ch => htmlToText(ch.html));
+  return chapterTextsCache;
+}
+
+// HTMLエスケープ
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// debounce
+function debounce(fn, wait) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), wait);
+  };
+}
+
+// 全文検索
+function performGlobalSearch(query) {
+  const resultsContainer = document.getElementById('search-results');
+  const chapterList = document.getElementById('chapter-list');
+
+  const q = (query || '').trim();
+  if (q.length === 0) {
+    resultsContainer.style.display = 'none';
+    chapterList.style.display = '';
+    return;
+  }
+
+  const qLower = q.toLowerCase();
+  const texts = getChapterTexts();
+  const results = [];
+
+  knowledgeData.forEach((ch, i) => {
+    const text = texts[i];
+    const lower = text.toLowerCase();
+    const matches = [];
+    let pos = 0;
+    while ((pos = lower.indexOf(qLower, pos)) !== -1) {
+      matches.push(pos);
+      pos += qLower.length;
+      if (matches.length >= 100) break; // 上限
+    }
+    if (matches.length > 0) {
+      results.push({
+        index: i,
+        title: ch.title,
+        matches: matches,
+        text: text
+      });
+    }
+  });
+
+  renderSearchResults(results, q);
+  resultsContainer.style.display = '';
+  chapterList.style.display = 'none';
+}
+
+function renderSearchResults(results, query) {
+  const container = document.getElementById('search-results');
+  if (results.length === 0) {
+    container.innerHTML = `<div class="no-results">「${escapeHtml(query)}」に一致する結果はありません</div>`;
+    return;
+  }
+  const totalMatches = results.reduce((sum, r) => sum + r.matches.length, 0);
+  const qLen = query.length;
+
+  container.innerHTML =
+    `<div class="search-summary">${results.length}章 / ${totalMatches}件のマッチ</div>` +
+    results.map(r => `
+      <div class="search-result-item" data-index="${r.index}">
+        <div class="result-header">
+          <span class="result-title">${escapeHtml(r.title)}</span>
+          <span class="result-count">${r.matches.length}件</span>
+        </div>
+        <div class="result-snippet">${generateSnippet(r.text, r.matches[0], qLen)}</div>
+      </div>
+    `).join('');
+
+  container.querySelectorAll('.search-result-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const idx = parseInt(el.dataset.index, 10);
+      currentSearchQuery = query;
+      openChapter(idx);
+    });
+  });
+}
+
+function generateSnippet(text, pos, queryLen) {
+  const radius = 40;
+  const before = Math.max(0, pos - radius);
+  const after = Math.min(text.length, pos + queryLen + radius);
+  const snippet = text.substring(before, after);
+  const matchStart = pos - before;
+  return (before > 0 ? '…' : '') +
+    escapeHtml(snippet.substring(0, matchStart)) +
+    '<mark>' + escapeHtml(snippet.substring(matchStart, matchStart + queryLen)) + '</mark>' +
+    escapeHtml(snippet.substring(matchStart + queryLen)) +
+    (after < text.length ? '…' : '');
+}
+
+/* ---------- 章内検索 ---------- */
+
+function performInChapterSearch(query, scrollToFirst) {
+  clearInChapterHighlights();
+  const q = (query || '').trim();
+  if (q.length === 0) {
+    updateInChapterCount(0, 0);
+    return;
+  }
+  const container = document.getElementById('textbook-content');
+  highlightTextNodes(container, q);
+
+  const marks = container.querySelectorAll('mark.in-chapter-match');
+  if (marks.length === 0) {
+    updateInChapterCount(0, 0);
+    return;
+  }
+  currentMatchIndex = 0;
+  marks[0].classList.add('current');
+  updateInChapterCount(1, marks.length);
+  if (scrollToFirst) {
+    marks[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
+}
+
+function highlightTextNodes(root, query) {
+  const qLower = query.toLowerCase();
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) => {
+      const parent = node.parentElement;
+      if (!parent) return NodeFilter.FILTER_REJECT;
+      const tag = parent.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'MARK') return NodeFilter.FILTER_REJECT;
+      if (node.textContent.toLowerCase().indexOf(qLower) === -1) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes = [];
+  let n;
+  while ((n = walker.nextNode())) nodes.push(n);
+
+  nodes.forEach(node => {
+    const text = node.textContent;
+    const lower = text.toLowerCase();
+    const fragment = document.createDocumentFragment();
+    let lastEnd = 0;
+    let pos = 0;
+    while ((pos = lower.indexOf(qLower, lastEnd)) !== -1) {
+      if (pos > lastEnd) {
+        fragment.appendChild(document.createTextNode(text.substring(lastEnd, pos)));
+      }
+      const mark = document.createElement('mark');
+      mark.className = 'in-chapter-match';
+      mark.textContent = text.substring(pos, pos + query.length);
+      fragment.appendChild(mark);
+      lastEnd = pos + query.length;
+    }
+    if (lastEnd < text.length) {
+      fragment.appendChild(document.createTextNode(text.substring(lastEnd)));
+    }
+    node.parentNode.replaceChild(fragment, node);
+  });
+}
+
+function clearInChapterHighlights() {
+  const container = document.getElementById('textbook-content');
+  if (!container) return;
+  const marks = container.querySelectorAll('mark.in-chapter-match');
+  marks.forEach(m => {
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+  });
+  // テキストノードを統合
+  container.normalize();
+}
+
+function updateInChapterCount(current, total) {
+  const counter = document.getElementById('in-chapter-count');
+  counter.textContent = total === 0 ? '' : `${current} / ${total}`;
+}
+
+function navigateMatch(direction) {
+  const marks = document.querySelectorAll('#textbook-content mark.in-chapter-match');
+  if (marks.length === 0) return;
+  marks[currentMatchIndex].classList.remove('current');
+  currentMatchIndex = (currentMatchIndex + direction + marks.length) % marks.length;
+  marks[currentMatchIndex].classList.add('current');
+  marks[currentMatchIndex].scrollIntoView({ block: 'center', behavior: 'smooth' });
+  updateInChapterCount(currentMatchIndex + 1, marks.length);
+}
+
+/* ---------- 検索UIイベント ---------- */
+document.getElementById('knowledge-search').addEventListener('input', debounce((e) => {
+  const q = e.target.value;
+  document.getElementById('btn-clear-search').style.display = q ? '' : 'none';
+  performGlobalSearch(q);
+}, 200));
+
+document.getElementById('btn-clear-search').addEventListener('click', () => {
+  const input = document.getElementById('knowledge-search');
+  input.value = '';
+  document.getElementById('btn-clear-search').style.display = 'none';
+  performGlobalSearch('');
+  currentSearchQuery = '';
+  input.focus();
+});
+
+document.getElementById('in-chapter-input').addEventListener('input', debounce((e) => {
+  performInChapterSearch(e.target.value, true);
+}, 200));
+
+document.getElementById('btn-prev-match').addEventListener('click', () => navigateMatch(-1));
+document.getElementById('btn-next-match').addEventListener('click', () => navigateMatch(1));
+
+document.getElementById('btn-clear-in-chapter').addEventListener('click', () => {
+  const input = document.getElementById('in-chapter-input');
+  input.value = '';
+  performInChapterSearch('', false);
+  input.focus();
+});
+
+// Enter / Shift+Enter で前後マッチに移動
+document.getElementById('in-chapter-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    navigateMatch(e.shiftKey ? -1 : 1);
+  } else if (e.key === 'Escape') {
+    const input = e.target;
+    input.value = '';
+    performInChapterSearch('', false);
+  }
 });
 
 /* ---------- Service Worker 登録 ---------- */

@@ -756,3 +756,176 @@ select {
 }
 .dialog p { font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
 .dialog-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ---------- ナレッジ検索 ---------- */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+.search-box input[type="search"] {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-box input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(93,64,55,0.15);
+}
+#btn-clear-search {
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+#btn-clear-search:hover { background: var(--bg); }
+
+.search-results {
+  padding: 10px 16px 20px;
+}
+.search-summary {
+  padding: 6px 4px 10px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.search-result-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.search-result-item:hover {
+  background: var(--bg);
+  transform: translateY(-1px);
+}
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+.result-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+.result-count {
+  font-size: 0.7rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.result-snippet {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.result-snippet mark {
+  background: #ffe066;
+  color: #3e2723;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* ---------- 章内検索バー ---------- */
+.in-chapter-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.in-chapter-search input[type="search"] {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.in-chapter-search input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+#in-chapter-count {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  min-width: 40px;
+  text-align: center;
+  white-space: nowrap;
+}
+.in-chapter-search button {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1;
+}
+.in-chapter-search button:hover { background: var(--bg); }
+.in-chapter-search button:active { background: var(--border); }
+
+/* ---------- ハイライト ---------- */
+mark.in-chapter-match {
+  background: #ffe066;
+  color: #3e2723;
+  padding: 0 2px;
+  border-radius: 2px;
+  scroll-margin-top: 80px;
+}
+mark.in-chapter-match.current {
+  background: #ff9933;
+  color: #fff;
+  outline: 2px solid #ff6600;
+  outline-offset: 1px;
+}
+
+/* ダークモードでのハイライト調整 */
+body.dark mark.in-chapter-match {
+  background: #d4a574;
+  color: #2c1f17;
+}
+body.dark mark.in-chapter-match.current {
+  background: #ff9933;
+  color: #fff;
+}
+body.dark .result-snippet mark {
+  background: #d4a574;
+  color: #2c1f17;
+}
