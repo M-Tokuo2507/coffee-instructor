@@ -949,3 +949,45 @@ body.dark .result-snippet mark {
   background: #d4a574;
   color: #2c1f17;
 }
+
+/* ---------- ナレッジ内 コードブロック（テキスト系統図） ---------- */
+.textbook-content pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  max-width: 100%;
+}
+.textbook-content pre code {
+  display: block;
+  white-space: pre;
+  font-family: 'SF Mono', Menlo, Consolas, 'Hiragino Sans', monospace;
+  background: transparent;
+  padding: 0;
+  color: var(--text);
+  min-width: 0;
+}
+.textbook-content code {
+  background: var(--bg-card);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.88em;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* スクロールバー（webkit） */
+.textbook-content pre::-webkit-scrollbar {
+  height: 6px;
+}
+.textbook-content pre::-webkit-scrollbar-thumb {
+  background: var(--accent-light);
+  border-radius: 3px;
+}
+.textbook-content pre::-webkit-scrollbar-track {
+  background: transparent;
+}
