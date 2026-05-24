@@ -531,6 +531,9 @@ function openChapter(index) {
   updateChapterNav();
   showScreen('textbook-read');
 
+  // fixed sticky 分の余白を本文上に確保（タイトルの折り返し含めて毎回再計算）
+  requestAnimationFrame(adjustTextbookStickyOffset);
+
   // 全文検索から開かれた場合は章内検索を自動実行
   const inChapterInput = document.getElementById('in-chapter-input');
   if (currentSearchQuery) {
@@ -541,6 +544,21 @@ function openChapter(index) {
     updateInChapterCount(0, 0);
   }
 }
+
+// fixed sticky ヘッダーの高さを取得して本文に余白を設定
+function adjustTextbookStickyOffset() {
+  const sticky = document.querySelector('#screen-textbook-read .textbook-sticky');
+  const content = document.getElementById('textbook-content');
+  if (!sticky || !content) return;
+  const h = sticky.offsetHeight;
+  content.style.marginTop = h + 'px';
+  // 検索ハイライトジャンプ時のスクロール位置調整にも使用
+  document.documentElement.style.setProperty('--sticky-h', h + 'px');
+}
+window.addEventListener('resize', adjustTextbookStickyOffset);
+window.addEventListener('orientationchange', () => {
+  setTimeout(adjustTextbookStickyOffset, 100);
+});
 
 function updateChapterNav() {
   document.getElementById('btn-prev-chapter').disabled = (currentChapterIndex <= 0);
