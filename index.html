@@ -9,7 +9,7 @@
   <title>コーヒーインストラクター1級 対策</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
   <!-- コーヒー豆 背景装飾 -->
@@ -122,16 +122,18 @@
 
   <!-- ===== テキスト学習：本文 ===== -->
   <div id="screen-textbook-read" class="screen">
-    <header class="sub-header">
-      <button class="back-btn" data-target="textbook">‹ 目次</button>
-      <h2 id="textbook-title"></h2>
-    </header>
-    <div class="in-chapter-search">
-      <input type="search" id="in-chapter-input" placeholder="🔍 この章を検索" autocomplete="off">
-      <span id="in-chapter-count"></span>
-      <button id="btn-prev-match" aria-label="前のマッチ">↑</button>
-      <button id="btn-next-match" aria-label="次のマッチ">↓</button>
-      <button id="btn-clear-in-chapter" aria-label="クリア">✕</button>
+    <div class="textbook-sticky">
+      <header class="sub-header">
+        <button class="back-btn" data-target="textbook">‹ 目次</button>
+        <h2 id="textbook-title"></h2>
+      </header>
+      <div class="in-chapter-search">
+        <input type="search" id="in-chapter-input" placeholder="🔍 この章を検索" autocomplete="off">
+        <span id="in-chapter-count"></span>
+        <button id="btn-prev-match" aria-label="前のマッチ">↑</button>
+        <button id="btn-next-match" aria-label="次のマッチ">↓</button>
+        <button id="btn-clear-in-chapter" aria-label="クリア">✕</button>
+      </div>
     </div>
     <div class="textbook-content" id="textbook-content"></div>
     <div class="chapter-nav">

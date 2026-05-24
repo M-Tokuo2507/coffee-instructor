@@ -854,13 +854,28 @@ select {
 }
 
 /* ---------- 章内検索バー ---------- */
+/* テキスト本文画面：sub-header + 検索バーをまとめて上部固定 */
+#screen-textbook-read .textbook-sticky {
+  position: sticky;
+  top: calc(-1 * var(--safe-top));
+  z-index: 20;
+  background: var(--bg);
+  /* screen の左右padding(16px)を打ち消して画面端まで延ばす */
+  margin: calc(-16px - var(--safe-top)) -16px 16px;
+  padding: calc(16px + var(--safe-top)) 16px 0;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+#screen-textbook-read .sub-header {
+  margin-bottom: 8px;
+}
+
 .in-chapter-search {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 12px;
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border);
+  padding: 8px 0;
+  background: var(--bg);
 }
 .in-chapter-search input[type="search"] {
   flex: 1;
@@ -869,7 +884,7 @@ select {
   border: 1px solid var(--border);
   border-radius: 6px;
   font-size: 0.9rem;
-  background: var(--bg);
+  background: var(--bg-card);
   color: var(--text);
   -webkit-appearance: none;
   appearance: none;
@@ -904,7 +919,7 @@ mark.in-chapter-match {
   color: #3e2723;
   padding: 0 2px;
   border-radius: 2px;
-  scroll-margin-top: 80px;
+  scroll-margin-top: 120px;
 }
 mark.in-chapter-match.current {
   background: #ff9933;
