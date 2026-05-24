@@ -865,7 +865,11 @@ select {
   right: 0;
   z-index: 20;
   background-color: var(--bg);
-  padding: calc(8px + var(--safe-top)) 16px 0;
+  /* iPhone ステータスバー（時計・電池）を確実に避ける：env()が0でも最低52pxは確保 */
+  padding-top: max(calc(8px + env(safe-area-inset-top, 0px)), 52px);
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 0;
   border-bottom: 1px solid var(--border);
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
